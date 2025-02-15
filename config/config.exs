@@ -53,6 +53,8 @@ config :up,
   generators: [timestamp_type: :utc_datetime],
   ash_domains: [Up.Products]
 
+config :up, :engine, Up.Engine.Prod
+
 # Configures the endpoint
 config :up, UpWeb.Endpoint,
   url: [host: "localhost"],

@@ -4,5 +4,6 @@ defmodule Up.Products do
 
   resources do
     resource Up.Products.Dynamic.Story
+    resource Up.Products.Dynamic.Story.Frame
   end
 end
