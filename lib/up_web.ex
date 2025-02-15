@@ -43,7 +43,7 @@ defmodule UpWeb do
         layouts: [html: UpWeb.Layouts]
 
       import Plug.Conn
-      import UpWeb.Gettext
+      use Gettext, backend: UpWeb.Gettext
 
       unquote(verified_routes())
     end
@@ -85,7 +85,7 @@ defmodule UpWeb do
       import Phoenix.HTML
       # Core UI components and translation
       import UpWeb.CoreComponents
-      import UpWeb.Gettext
+      use Gettext, backend: UpWeb.Gettext
 
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS

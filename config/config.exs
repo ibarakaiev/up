@@ -50,7 +50,8 @@ config :spark,
 
 config :up,
   ecto_repos: [Up.Repo],
-  generators: [timestamp_type: :utc_datetime]
+  generators: [timestamp_type: :utc_datetime],
+  ash_domains: [Up.Products]
 
 # Configures the endpoint
 config :up, UpWeb.Endpoint,

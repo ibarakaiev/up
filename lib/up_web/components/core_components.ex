@@ -17,7 +17,7 @@ defmodule UpWeb.CoreComponents do
   use Phoenix.Component
 
   alias Phoenix.LiveView.JS
-  import UpWeb.Gettext
+  use Gettext, backend: UpWeb.Gettext
 
   @doc """
   Renders a modal.

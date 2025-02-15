@@ -33,6 +33,7 @@ defmodule Up.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:ash_state_machine, "~> 0.2"},
       {:fireside, "~> 0.1"},
       {:oban_web, "~> 2.0"},
       {:oban, "~> 2.0"},
