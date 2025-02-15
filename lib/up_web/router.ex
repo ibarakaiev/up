@@ -18,6 +18,9 @@ defmodule UpWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+
+    live "/stories/new", Live.Products.Dynamic.Story.New, :new
+    live "/stories/:hash", Live.Products.Dynamic.Story, :show
   end
 
   # Other scopes may use custom stacks.

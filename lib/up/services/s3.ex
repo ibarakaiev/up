@@ -34,8 +34,13 @@ defmodule Up.Services.S3 do
     {:ok, response} = Req.get(url)
 
     put!(key, response.body)
+  end
 
-    "#{System.get_env("AWS_ENDPOINT_URL_S3")}/#{System.get_env("BUCKET_NAME")}/#{key}"
+  def upload_from_path!(key, path) do
+    stat = File.stat!(path)
+    stream = File.stream!(path, [], 2048)
+
+    put!(key, stream, content_length: stat.size)
   end
 
   def get!(key), do: Req.get!(base_req(), url: key).body
