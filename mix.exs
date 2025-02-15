@@ -33,6 +33,7 @@ defmodule Up.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:fireside, "~> 0.1"},
       {:oban_web, "~> 2.0"},
       {:oban, "~> 2.0"},
       {:aws_signature, "~> 0.3"},
@@ -41,9 +42,9 @@ defmodule Up.MixProject do
       {:ash_phoenix, "~> 2.0"},
       {:ash_admin, "~> 0.12"},
       {:ash_postgres, "~> 2.0"},
-      {:sourceror, "~> 1.7", only: [:dev, :test]},
+      {:sourceror, "~> 1.7"},
       {:ash, "~> 3.0"},
-      {:igniter, "~> 0.5", only: [:dev, :test]},
+      {:igniter, "~> 0.5"},
       {:phoenix, "~> 1.7.14"},
       {:phoenix_ecto, "~> 4.5"},
       {:ecto_sql, "~> 3.10"},
