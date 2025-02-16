@@ -136,8 +136,7 @@ defmodule Up.Products.Dynamic.Story do
       "In a cozy, vintage-decorated living room, PERSON ONE and PERSON TWO present a glowing new gaming PC to their astonished 12-year-old. The child reaches out excitedly, reflected in the PC’s glass side. Remnants of a birthday celebration—balloons and half-eaten cake—mark this joyful milestone.",
       "Once again, PERSON TWO has to break the 'Paradise Falls' jar, signaling another setback. Coins and bills spill out, reflecting a difficult decision to use the long-held travel savings for urgent needs.",
       "PERSON TWO stands before a mirror in a crisp new suit, adjusting a sleek tie and holding a polished briefcase. PERSON ONE gently fixes PERSON TWO’s collar, pride in their eyes. A small celebratory table with a card and gift glows in the golden light, marking this long-awaited success.",
-      "In warm light, PERSON ONE, wearing an olive-green scout uniform with a badge and a purple hair ribbon, adjusts the red, white, and blue tie of PERSON TWO, who wears a white shirt, black suspenders, and a red armband. The cozy home interior and soft daylight set a nostalgic tone.",
-      "Now older, PERSON ONE still wears the faded scout uniform, gently adjusting PERSON TWO’s tie. PERSON TWO’s hair is gray and disheveled, and their posture hunched. The same cozy interior, warmed by soft daylight, highlights the enduring bond as they share this long-standing ritual."
+      "In warm light, PERSON ONE, wearing an olive-green scout uniform with a badge and a purple hair ribbon, adjusts the red, white, and blue tie of PERSON TWO, who wears a white shirt, black suspenders, and a red armband. The cozy home interior and soft daylight set a nostalgic tone."
     ]
   end
 

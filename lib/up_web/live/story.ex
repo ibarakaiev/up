@@ -41,7 +41,7 @@ defmodule UpWeb.Live.Products.Dynamic.Story do
         </div>
       </div>
 
-      <div class="mt-6 flex justify-end">
+      <div :if={@story.state == :frames_generated} class="mt-6 flex justify-end">
         <.link navigate={~p"/stories/#{@story.hash}/slideshow"}>
           <.button>
             Slideshow&nbsp;&rarr;
