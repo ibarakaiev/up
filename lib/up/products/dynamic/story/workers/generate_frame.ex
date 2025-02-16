@@ -2,7 +2,7 @@ defmodule Up.Products.Dynamic.Story.Workers.GenerateFrame do
   @moduledoc false
   use Oban.Worker,
     queue: :default,
-    max_attempts: 4,
+    max_attempts: 16,
     unique: [states: [:executing, :scheduled, :retryable]]
 
   alias Up.Products.Dynamic.Story
@@ -15,7 +15,8 @@ defmodule Up.Products.Dynamic.Story.Workers.GenerateFrame do
 
   @impl Oban.Worker
   def perform(%{
-        args: %{"hash" => story_hash, "prompt" => prompt, "frame_number" => frame_number} = _args
+        args: %{"hash" => story_hash, "prompt" => prompt, "frame_number" => frame_number} = _args,
+        attempt: attempt
       }) do
     story = Story.get_by_hash!(story_hash)
 
@@ -34,17 +35,26 @@ defmodule Up.Products.Dynamic.Story.Workers.GenerateFrame do
         image_url
       )
 
-    case Engine.generate_text(Story.PromptSchemas.CheckImage, %{
-           prompt: prompt,
-           image_url: uploaded_url
-         }) do
-      {:ok, %{matches_requirements: true, safe: true}} ->
-        Frame.create(%{
-          frame_number: frame_number,
-          image_url: uploaded_url,
-          prompt: prompt,
-          story_id: story.id
-        })
+    if attempt >= 5 do
+      Frame.create(%{
+        frame_number: frame_number,
+        image_url: uploaded_url,
+        prompt: prompt,
+        story_id: story.id
+      })
+    else
+      case Engine.generate_text(Story.PromptSchemas.CheckImage, %{
+             prompt: prompt,
+             image_url: uploaded_url
+           }) do
+        {:ok, %{matches_requirements: true, safe: true}} ->
+          Frame.create(%{
+            frame_number: frame_number,
+            image_url: uploaded_url,
+            prompt: prompt,
+            story_id: story.id
+          })
+      end
     end
   end
 end
