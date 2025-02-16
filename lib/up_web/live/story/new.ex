@@ -9,48 +9,65 @@ defmodule UpWeb.Live.Products.Dynamic.Story.New do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="mx-auto w-full max-w-screen-sm">
-      <h1 class="text-3xl font-bold">Generate a story</h1>
-      <p class="mt-6">
-        Welcome to the story generator in the style of Up! To proceed, please upload an image of the couple for whom you want to generate the story. The image must clearly show faces of only two people.
+    <div class="mx-auto w-full max-w-lg p-6">
+      <h1 class="text-3xl font-bold mb-4">Generate a Story</h1>
+      <p class="text-gray-700 mb-6">
+        Welcome to the story generator in the style of Up! To proceed, please upload an image of the couple for whom you want to generate the story. The image must clearly show the faces of only two people.
       </p>
       <.simple_form for={@form} multipart phx-submit="submit" phx-change="validate">
-        <.live_file_input upload={@uploads.couple} />
-        <section phx-drop-target={@uploads.couple.ref}>
-          <%!-- render each couple entry --%>
-          <article :for={entry <- @uploads.couple.entries} class="upload-entry">
-            <figure>
-              <.live_img_preview entry={entry} />
-              <figcaption>{entry.client_name}</figcaption>
-            </figure>
-
-            <%!-- entry.progress will update automatically for in-flight entries --%>
-            <progress value={entry.progress} max="100">{entry.progress}%</progress>
-
-            <%!-- a regular click event whose handler will invoke Phoenix.LiveView.cancel_upload/3 --%>
-            <button
-              type="button"
-              phx-click="cancel-upload"
-              phx-value-ref={entry.ref}
-              aria-label="cancel"
-            >
-              &times;
-            </button>
-
-            <%!-- Phoenix.Component.upload_errors/2 returns a list of error atoms --%>
-            <p :for={err <- upload_errors(@uploads.couple, entry)} class="alert alert-danger">
-              {error_to_string(err)}
-            </p>
-          </article>
-
-          <%!-- Phoenix.Component.upload_errors/1 returns a list of error atoms --%>
-          <p :for={err <- upload_errors(@uploads.couple)} class="alert alert-danger">
-            {error_to_string(err)}
-          </p>
-        </section>
+        <!-- Styled file input with a dropzone -->
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-gray-700 mb-2">Couple Image</label>
+          <div
+            class="relative flex items-center justify-center w-full border-2 border-dashed border-gray-300 rounded-md p-6 text-center cursor-pointer hover:border-blue-500 transition"
+            phx-drop-target={@uploads.couple.ref}
+          >
+            <span class="text-gray-500">Drag and drop your image here or click to select</span>
+            <.live_file_input
+              upload={@uploads.couple}
+              class="absolute inset-0 opacity-0 cursor-pointer"
+            />
+          </div>
+        </div>
+        
+    <!-- Previews and progress for uploaded images -->
+        <div class="mb-6 grid grid-cols-2 gap-4">
+          <%= for entry <- @uploads.couple.entries do %>
+            <article class="flex flex-col items-center p-2 border rounded-md">
+              <figure class="w-20 h-20 mb-2">
+                <.live_img_preview entry={entry} class="object-cover w-full h-full rounded-md" />
+              </figure>
+              <figcaption class="text-xs text-gray-600 truncate">{entry.client_name}</figcaption>
+              <progress
+                value={entry.progress}
+                max="100"
+                class="w-full mt-1 h-2 rounded-full overflow-hidden"
+              >
+                {entry.progress}%
+              </progress>
+              <button
+                type="button"
+                phx-click="cancel-upload"
+                phx-value-ref={entry.ref}
+                aria-label="cancel"
+                class="mt-1 text-red-500 hover:text-red-700"
+              >
+                &times;
+              </button>
+              <%= for err <- upload_errors(@uploads.couple, entry) do %>
+                <p class="text-xs text-red-600 mt-1">{error_to_string(err)}</p>
+              <% end %>
+            </article>
+          <% end %>
+          <%= for err <- upload_errors(@uploads.couple) do %>
+            <p class="col-span-2 text-xs text-red-600">{error_to_string(err)}</p>
+          <% end %>
+        </div>
 
         <:actions>
-          <.button>Upload</.button>
+          <.button class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md transition">
+            Upload and Generate Story
+          </.button>
         </:actions>
         <p if={@error} class="text-red-900 italic text-sm mt-6">{@error}</p>
       </.simple_form>
@@ -113,24 +130,7 @@ defmodule UpWeb.Live.Products.Dynamic.Story.New do
     end
   end
 
-  #
-  # def handle_event("validate", %{"form" => form_params} = _params, socket) do
-  #   {:noreply, assign(socket, form: AshPhoenix.Form.validate(socket.assigns.form, form_params))}
-  # end
-  #
-  # def handle_event("submit", %{"form" => form_params} = _params, socket) do
-  #   case AshPhoenix.Form.submit(socket.assigns.form, params: form_params) do
-  #     {:ok, memory_trivia} ->
-  #       {:noreply,
-  #        socket
-  #        |> put_flash(:info, "Saved answers")
-  #        |> push_navigate(to: ~p"/products/memory-trivia/#{memory_trivia.hash}/add-name")}
-  #
-  #     {:error, form} ->
-  #       {:noreply, assign(socket, form: form)}
-  #   end
-  # end
-  defp error_to_string(:too_large), do: "Too large"
-  defp error_to_string(:too_many_files), do: "You have selected too many files"
-  defp error_to_string(:not_accepted), do: "You have selected an unacceptable file type"
+  defp error_to_string(:too_large), do: "File is too large"
+  defp error_to_string(:too_many_files), do: "Too many files selected"
+  defp error_to_string(:not_accepted), do: "Unacceptable file type"
 end

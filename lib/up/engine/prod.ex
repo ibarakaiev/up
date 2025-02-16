@@ -3,6 +3,7 @@ defmodule Up.Engine.Prod do
   @behaviour Up.Engine
 
   alias Up.Services.BFL
+  alias Up.Services.Runway
 
   require Logger
 
@@ -28,7 +29,46 @@ defmodule Up.Engine.Prod do
     end
   end
 
-  # Updated output handler to support maps with a "sample" key.
+  @impl true
+  @doc """
+  Generates a video by accepting two arguments: `prompt_image` and `prompt_text`.
+
+  ## Parameters
+
+    - `prompt_image`: a binary containing the URL or data URI for the first frame.
+    - `prompt_text`: a binary describing what should appear in the video.
+    - `opts`: an optional keyword list for additional settings like `"duration"`, `"seed"`, etc.
+
+  The defaults are:
+    - `"model"`: `"gen3a_turbo"`
+    - `"duration"`: `10`
+    - `"watermark"`: `false`
+  """
+  def generate_video(prompt_image, prompt_text, opts \\ [])
+      when is_binary(prompt_image) and is_binary(prompt_text) do
+    Logger.debug(prompt_image: prompt_image, prompt_text: prompt_text)
+
+    defaults = %{
+      "model" => "gen3a_turbo",
+      "duration" => 10,
+      "watermark" => false
+    }
+
+    payload =
+      defaults
+      |> Map.merge(%{
+        "promptImage" => prompt_image,
+        "promptText" => prompt_text
+      })
+      |> Map.merge(Enum.into(opts, %{}))
+
+    case Runway.generate_video(payload) do
+      {:ok, output} -> handle_video_output(output)
+      {:error, error} -> {:error, error}
+    end
+  end
+
+  # Handles image outputs.
   defp handle_output(%{"sample" => url}) when is_binary(url) do
     {:ok, url}
   end
@@ -47,5 +87,14 @@ defmodule Up.Engine.Prod do
 
   defp handle_output(other) do
     {:error, "Unexpected output format: #{inspect(other)}"}
+  end
+
+  # Handles video outputs.
+  defp handle_video_output(output) when is_binary(output) do
+    {:ok, output}
+  end
+
+  defp handle_video_output(other) do
+    {:error, "Unexpected video output format: #{inspect(other)}"}
   end
 end

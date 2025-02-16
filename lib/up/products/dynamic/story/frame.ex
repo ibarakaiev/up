@@ -32,6 +32,7 @@ defmodule Up.Products.Dynamic.Story.Frame do
 
     prefix "story"
 
+    publish_all :create, ["updated", :story_id]
     publish_all :update, ["updated", :story_id]
   end
 
@@ -44,6 +45,7 @@ defmodule Up.Products.Dynamic.Story.Frame do
 
     attribute :frame_number, :integer, public?: true
 
+    attribute :prompt, :string, public?: true
     attribute :image_url, :string, public?: true
   end
 

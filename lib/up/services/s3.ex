@@ -16,9 +16,15 @@ defmodule Up.Services.S3 do
           length
       end
 
-    headers = [
-      {"content-length", Integer.to_string(content_length)} | Keyword.get(opts, :headers, [])
-    ]
+    # Determine content-type based on the key's extension.
+    content_type = content_type_for_key(key)
+
+    headers =
+      [
+        {"content-length", Integer.to_string(content_length)},
+        {"content-type", content_type}
+      ]
+      |> Kernel.++(Keyword.get(opts, :headers, []))
 
     Req.put!(
       base_req(),
@@ -32,14 +38,12 @@ defmodule Up.Services.S3 do
 
   def upload_from_url!(key, url) do
     {:ok, response} = Req.get(url)
-
     put!(key, response.body)
   end
 
   def upload_from_path!(key, path) do
     stat = File.stat!(path)
     stream = File.stream!(path, [], 2048)
-
     put!(key, stream, content_length: stat.size)
   end
 
@@ -57,5 +61,26 @@ defmodule Up.Services.S3 do
         service: :s3
       ]
     )
+  end
+
+  defp content_type_for_key(key) do
+    key_downcased = String.downcase(key)
+
+    cond do
+      String.ends_with?(key_downcased, ".webp") ->
+        "image/webp"
+
+      String.ends_with?(key_downcased, ".png") ->
+        "image/png"
+
+      String.ends_with?(key_downcased, ".jpeg") or String.ends_with?(key_downcased, ".jpg") ->
+        "image/jpeg"
+
+      String.ends_with?(key_downcased, ".gif") ->
+        "image/gif"
+
+      true ->
+        "application/octet-stream"
+    end
   end
 end

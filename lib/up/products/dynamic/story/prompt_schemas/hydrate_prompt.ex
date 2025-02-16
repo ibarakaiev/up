@@ -10,7 +10,7 @@ defmodule Up.Products.Dynamic.Story.PromptSchemas.HydratePrompt do
 
   def validate_changeset(changeset, _opts \\ []) do
     changeset
-    |> Ecto.Changeset.validate_length(:prompt, max: 2000)
+    |> Ecto.Changeset.validate_length(:prompt, max: 1000)
   end
 
   def prompt(%{story: story, prompt: prompt}) do

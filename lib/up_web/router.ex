@@ -21,6 +21,7 @@ defmodule UpWeb.Router do
 
     live "/stories/new", Live.Products.Dynamic.Story.New, :new
     live "/stories/:hash", Live.Products.Dynamic.Story, :show
+    live "/stories/:hash/slideshow", Live.Products.Dynamic.Story.Slideshow, :slideshow
   end
 
   # Other scopes may use custom stacks.

@@ -19,7 +19,9 @@ defmodule UpWeb.Live.Products.Dynamic.Story do
         >
           The illustrations for your story are being generated
         </p>
-        <p :if={@story.state == :frames_generated} class="italic mt-6">Your story is now ready.</p>
+        <p :if={@story.state == :frames_generated} class="italic mt-6">
+          Your story is now ready. Scroll down and click next to see a slideshow :)
+        </p>
       </div>
 
       <div class="grid grid-cols-3 mt-16 gap-x-6 gap-y-4">
@@ -37,6 +39,14 @@ defmodule UpWeb.Live.Products.Dynamic.Story do
           </div>
           <img :if={not is_nil(frame.image_url)} src={frame.image_url} class="h-48" />
         </div>
+      </div>
+
+      <div class="mt-6 flex justify-end">
+        <.link navigate={~p"/stories/#{@story.hash}/slideshow"}>
+          <.button>
+            Slideshow&nbsp;&rarr;
+          </.button>
+        </.link>
       </div>
     </div>
     """
