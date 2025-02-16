@@ -35,3 +35,4 @@ up-*.tar
 npm-debug.log
 /assets/node_modules/
 
+flux-finetuning/data
