@@ -33,17 +33,26 @@ defmodule Up.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:sourceror, "~> 1.7", only: [:dev, :test]},
+      {:ash_state_machine, "~> 0.2"},
+      {:fireside, "~> 0.1"},
+      {:oban_web, "~> 2.0"},
+      {:oban, "~> 2.0"},
+      {:aws_signature, "~> 0.3"},
+      {:req, "~> 0.5"},
+      {:instructor, "~> 0.1"},
+      {:ash_phoenix, "~> 2.0"},
+      {:ash_admin, "~> 0.12"},
+      {:ash_postgres, "~> 2.0"},
+      {:sourceror, "~> 1.7"},
       {:ash, "~> 3.0"},
-      {:igniter, "~> 0.5", only: [:dev, :test]},
+      {:igniter, "~> 0.5"},
       {:phoenix, "~> 1.7.14"},
       {:phoenix_ecto, "~> 4.5"},
       {:ecto_sql, "~> 3.10"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 4.1"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
-      # TODO bump on release to {:phoenix_live_view, "~> 1.0.0"},
-      {:phoenix_live_view, "~> 1.0.0-rc.1", override: true},
+      {:phoenix_live_view, "~> 1.0.0", override: true},
       {:floki, ">= 0.30.0", only: :test},
       {:phoenix_live_dashboard, "~> 0.8.3"},
       {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
@@ -74,10 +83,10 @@ defmodule Up.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      setup: ["deps.get", "ecto.setup", "assets.setup", "assets.build"],
+      setup: ["deps.get", "ash.setup", "assets.setup", "assets.build", "run priv/repo/seeds.exs"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
+      test: ["ash.setup --quiet", "test"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
       "assets.build": ["tailwind up", "esbuild up"],
       "assets.deploy": [

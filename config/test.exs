@@ -1,4 +1,6 @@
 import Config
+config :up, Oban, testing: :manual
+config :ash, disable_async?: true
 
 # Configure your database
 #

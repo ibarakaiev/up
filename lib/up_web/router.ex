@@ -18,6 +18,9 @@ defmodule UpWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+
+    live "/stories/new", Live.Products.Dynamic.Story.New, :new
+    live "/stories/:hash", Live.Products.Dynamic.Story, :show
   end
 
   # Other scopes may use custom stacks.
@@ -39,6 +42,16 @@ defmodule UpWeb.Router do
 
       live_dashboard "/dashboard", metrics: UpWeb.Telemetry
       forward "/mailbox", Plug.Swoosh.MailboxPreview
+    end
+  end
+
+  if Application.compile_env(:up, :dev_routes) do
+    import AshAdmin.Router
+
+    scope "/admin" do
+      pipe_through :browser
+
+      ash_admin "/"
     end
   end
 end
