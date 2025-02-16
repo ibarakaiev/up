@@ -22,20 +22,20 @@ defmodule UpWeb.Live.Products.Dynamic.Story do
         <p :if={@story.state == :frames_generated} class="italic mt-6">Your story is now ready.</p>
       </div>
 
-      <div class="grid grid-cols-3 mt-16">
+      <div class="grid grid-cols-3 mt-16 gap-x-6 gap-y-4">
         <div
           :for={frame <- populate_missing_frames(@story.frames, Story.total_prompts())}
           class="rounded-lg overflow-hidden"
         >
           <div
             :if={is_nil(frame.image_url)}
-            class="bg-zinc-200 inset flex justify-center items-center text-zinc-800 min-h-32 shadow-inner"
+            class="bg-zinc-200 inset flex justify-center items-center text-zinc-800 h-48 shadow-inner"
           >
-            <p id={"frame-#{frame.frame_number}"} phx-hook="LoadingEllipsis" class="w-8">
+            <p id={"frame-#{frame.frame_number}"} phx-hook="LoadingEllipsis" class="w-12">
               {frame.frame_number}
             </p>
           </div>
-          <img :if={not is_nil(frame.image_url)} src={frame.image_url} />
+          <img :if={not is_nil(frame.image_url)} src={frame.image_url} class="h-48" />
         </div>
       </div>
     </div>

@@ -40,7 +40,7 @@ defmodule Up.Products.Dynamic.Story.PromptSchemas.CoupleDescription do
             text: """
             Write a description of each of the people in the couple that's displayed in this image. If there are not exactly two main people in the image, you mark the image as disallowed. Note that it's fine to be background surroundings, other people in the background, as long as there are clearly exactly two people who are a couple.
 
-            Only focus on their faces, hair, and height. Do not comment on their clothes, what they're doing, or what they're holding.
+            Only focus on their faces, hair, and height.
 
             Make sure to include the following:
             - eye color (if visible)
@@ -51,6 +51,8 @@ defmodule Up.Products.Dynamic.Story.PromptSchemas.CoupleDescription do
             - skin color
             - eye shape
             - face shape
+            - weight
+            - clothes
             - and anything else that's relevant, such as glasses, freckles, etc (don't mention their absence though, only mention them if they're present)
 
             If one person is taller than the other, mention that they are taller, and mention that the other one is shorter.

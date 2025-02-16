@@ -35,6 +35,10 @@ defmodule Up.Products.Dynamic.Story.Frame do
     publish_all :update, ["updated", :story_id]
   end
 
+  preparations do
+    prepare build(sort: [frame_number: :asc])
+  end
+
   attributes do
     uuid_primary_key :id
 

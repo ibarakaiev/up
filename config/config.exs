@@ -10,7 +10,7 @@ import Config
 config :up, Oban,
   engine: Oban.Engines.Basic,
   notifier: Oban.Notifiers.Postgres,
-  queues: [default: 10],
+  queues: [default: 100],
   repo: Up.Repo
 
 config :ash,

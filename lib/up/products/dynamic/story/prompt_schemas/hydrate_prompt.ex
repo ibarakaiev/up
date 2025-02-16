@@ -10,7 +10,7 @@ defmodule Up.Products.Dynamic.Story.PromptSchemas.HydratePrompt do
 
   def validate_changeset(changeset, _opts \\ []) do
     changeset
-    |> Ecto.Changeset.validate_length(:prompt, max: 1000)
+    |> Ecto.Changeset.validate_length(:prompt, max: 2000)
   end
 
   def prompt(%{story: story, prompt: prompt}) do
@@ -39,6 +39,8 @@ defmodule Up.Products.Dynamic.Story.PromptSchemas.HydratePrompt do
         -- PERSON TWO --
         #{story.person_two_description}
         -- END PERSON TWO --
+
+        If a prompt explicitly mentions clothes such as a wedding dress, do not incorporate new clothes into the description. Otherwise, mention clothes. Make sure to mention the person's WEIGHT.
         """
       }
     ]
