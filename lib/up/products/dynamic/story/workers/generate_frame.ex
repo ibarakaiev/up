@@ -34,11 +34,17 @@ defmodule Up.Products.Dynamic.Story.Workers.GenerateFrame do
         image_url
       )
 
-    Frame.create(%{
-      frame_number: frame_number,
-      image_url: uploaded_url,
-      prompt: prompt,
-      story_id: story.id
-    })
+    case Engine.generate_text(Story.PromptSchemas.CheckImage, %{
+           prompt: prompt,
+           image_url: uploaded_url
+         }) do
+      {:ok, %{matches_requirements: true, safe: true}} ->
+        Frame.create(%{
+          frame_number: frame_number,
+          image_url: uploaded_url,
+          prompt: prompt,
+          story_id: story.id
+        })
+    end
   end
 end
