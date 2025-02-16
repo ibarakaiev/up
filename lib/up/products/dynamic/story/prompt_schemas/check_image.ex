@@ -37,6 +37,8 @@ defmodule Up.Products.Dynamic.Story.PromptSchemas.CheckImage do
             Make sure the image is not weird and is physically consistent. There may not be transparent bodies, flying limbs, flying weird things, etc. Make sure the body weight matches the description, if provided. Make sure the genders are correct, if appropriate.
 
             If eye colors don't match that's fine. Minor age differences are also fine.
+
+            Make sure there's no captioned text.
             """
           },
           %{
