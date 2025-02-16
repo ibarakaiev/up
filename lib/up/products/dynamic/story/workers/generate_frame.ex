@@ -10,6 +10,11 @@ defmodule Up.Products.Dynamic.Story.Workers.GenerateFrame do
   alias Up.Engine
   alias Up.Services.S3
 
+  @impl Worker
+  def backoff(_job) do
+    0
+  end
+
   @impl Oban.Worker
   def timeout(_job), do: :timer.seconds(90)
 
