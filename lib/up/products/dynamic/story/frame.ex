@@ -15,6 +15,17 @@ defmodule Up.Products.Dynamic.Story.Frame do
     end
   end
 
+  code_interface do
+    domain Up.Products
+
+    define :create, action: :create
+    define :update, action: :update
+  end
+
+  actions do
+    defaults [:read, :destroy, create: :*, update: :*]
+  end
+
   attributes do
     uuid_primary_key :id
 

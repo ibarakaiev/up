@@ -1,14 +1,15 @@
-defmodule Imaginara.Products.Dynamic.Book.Actions.AddStorylineQuestion do
+defmodule Up.Products.Dynamic.Story.Actions.GenerateFrames do
   @moduledoc false
   use Ash.Resource.ManualUpdate
 
-  alias Imaginara.Products.Dynamic.Book
+  alias Up.Products.Dynamic.Story.Workers
+  alias Up.Products.Dynamic.Story
 
   @impl true
   def update(changeset, _opts, _context) do
     story = changeset.data
 
-    for {prompt, frame_number} <- Enum.with_index(prompts(), 1) do
+    for {prompt, frame_number} <- Enum.with_index(Story.prompts(), 1) do
       %{"hash" => story.hash, "prompt" => prompt, "frame_number" => frame_number}
       |> Workers.GenerateFrame.new()
       |> Oban.insert!()
@@ -19,8 +20,5 @@ defmodule Imaginara.Products.Dynamic.Book.Actions.AddStorylineQuestion do
     |> Oban.insert!()
 
     {:ok, story}
-  end
-
-  def prompts do
   end
 end

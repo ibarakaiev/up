@@ -1,6 +1,11 @@
 defmodule Up.Products do
   use Ash.Domain,
-    otp_app: :up
+    otp_app: :up,
+    extensions: [AshAdmin.Domain]
+
+  admin do
+    show? true
+  end
 
   resources do
     resource Up.Products.Dynamic.Story

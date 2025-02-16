@@ -3,8 +3,6 @@ defmodule UpWeb.Live.Products.Dynamic.Story do
   use UpWeb, :live_view
 
   alias Up.Products.Dynamic.Story
-  alias Up.Services.S3
-  alias Up.Engine
 
   @impl true
   def render(assigns) do

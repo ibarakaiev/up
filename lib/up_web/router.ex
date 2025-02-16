@@ -50,8 +50,10 @@ defmodule UpWeb.Router do
 
     scope "/admin" do
       pipe_through :browser
+      import Oban.Web.Router
 
-      ash_admin "/"
+      ash_admin "/ash"
+      oban_dashboard("/oban")
     end
   end
 end
