@@ -34,7 +34,7 @@ defmodule Up.Products.Dynamic.Story.PromptSchemas.CheckImage do
 
             If the requirements are not met, return an explanation. Otherwise, leave it empty.
 
-            Make sure the image is not weird and is physically consistent. There may not be transparent bodies, flying limbs, flying weird things, etc.
+            Make sure the image is not weird and is physically consistent. There may not be transparent bodies, flying limbs, flying weird things, etc. Make sure the body weight matches the description, if provided.
             """
           },
           %{
