@@ -3,7 +3,7 @@ defmodule UpWeb.Live.Products.Dynamic.Story.Slideshow do
 
   alias Up.Products.Dynamic.Story
 
-  @slide_interval 8_000
+  @slide_interval 5_000
 
   @impl true
   def render(assigns) do
