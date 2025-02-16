@@ -22,7 +22,7 @@ defmodule Up.Services.BFL do
 
   @bfl_base_url "https://api.us1.bfl.ai/v1"
   @default_model "flux-pro-1.1-ultra-finetuned"
-  @default_finetune_id "b932a4da-edca-473b-89af-4d9ce558fc38"
+  @default_finetune_id " 30f39675-b6ef-461e-adab-144395178c44"
 
   @doc """
   Runs a BFL inference and returns `{:ok, output}` or `{:error, reason}`.

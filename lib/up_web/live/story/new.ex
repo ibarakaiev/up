@@ -65,7 +65,10 @@ defmodule UpWeb.Live.Products.Dynamic.Story.New do
         </div>
 
         <:actions>
-          <.button class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md transition">
+          <.button
+            phx-disable-with="Uploading..."
+            class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md transition"
+          >
             Upload and Generate Story
           </.button>
         </:actions>
