@@ -24,10 +24,10 @@ defmodule UpWeb.Live.Products.Dynamic.Story do
         </p>
       </div>
 
-      <div class="grid grid-cols-3 mt-16 gap-x-6 gap-y-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 mt-16 gap-x-6 gap-y-4">
         <div
           :for={frame <- populate_missing_frames(@story.frames, Story.total_prompts())}
-          class="rounded-lg overflow-hidden"
+          class="rounded-lg overflow-hidden object-cover"
         >
           <div
             :if={is_nil(frame.image_url)}
