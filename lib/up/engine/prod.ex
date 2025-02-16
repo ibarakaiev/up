@@ -2,7 +2,7 @@ defmodule Up.Engine.Prod do
   @moduledoc false
   @behaviour Up.Engine
 
-  alias Up.Services.Replicate
+  alias Up.Services.BFL
 
   require Logger
 
@@ -19,39 +19,33 @@ defmodule Up.Engine.Prod do
   end
 
   @impl true
-  def generate_image(prompt, opts \\ []) do
+  def generate_image(prompt, opts \\ []) when is_binary(prompt) do
     Logger.debug(prompt: prompt)
 
-    input = %{
-      "cfg" => Keyword.get(opts, :cfg, 4.5),
-      "prompt" => prompt,
-      "steps" => Keyword.get(opts, :steps, 40),
-      "width" => Keyword.get(opts, :width, 1024),
-      "height" => Keyword.get(opts, :height, 1024)
-    }
-
-    case Replicate.predict(
-           Keyword.get(opts, :model, "black-forest-labs/flux-1.1-pro"),
-           input
-         ) do
+    case BFL.predict(prompt, opts) do
       {:ok, output} -> handle_output(output)
       {:error, error} -> {:error, error}
     end
   end
 
-  defp handle_output(output) do
-    case output do
-      ["data:image" <> _ | _] ->
-        raise "Base64 image responses are not supported"
+  # Updated output handler to support maps with a "sample" key.
+  defp handle_output(%{"sample" => url}) when is_binary(url) do
+    {:ok, url}
+  end
 
-      [url | _] ->
-        {:ok, url}
+  defp handle_output([url | _]) when is_binary(url) do
+    {:ok, url}
+  end
 
-      "https://" <> _rest = url ->
-        {:ok, url}
-
-      other ->
-        {:error, "Unexpected output format: #{inspect(other)}"}
+  defp handle_output(url) when is_binary(url) do
+    if String.starts_with?(url, "https://") do
+      {:ok, url}
+    else
+      {:error, "Unexpected output format: #{inspect(url)}"}
     end
+  end
+
+  defp handle_output(other) do
+    {:error, "Unexpected output format: #{inspect(other)}"}
   end
 end

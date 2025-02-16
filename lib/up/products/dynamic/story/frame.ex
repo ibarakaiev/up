@@ -2,7 +2,8 @@ defmodule Up.Products.Dynamic.Story.Frame do
   use Ash.Resource,
     otp_app: :up,
     data_layer: AshPostgres.DataLayer,
-    domain: Up.Products
+    domain: Up.Products,
+    notifiers: [Ash.Notifier.PubSub]
 
   alias Up.Products.Dynamic.Story
 
@@ -24,6 +25,14 @@ defmodule Up.Products.Dynamic.Story.Frame do
 
   actions do
     defaults [:read, :destroy, create: :*, update: :*]
+  end
+
+  pub_sub do
+    module UpWeb.Endpoint
+
+    prefix "story"
+
+    publish_all :update, ["updated", :story_id]
   end
 
   attributes do
